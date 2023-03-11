@@ -68,23 +68,20 @@ const EditExpenseSalaryComponent = props => {
     }
   };
 
-  const UpdateIncomeValues = async() => {
+  const UpdateIncomeValues = async(diff, bal_add) => {
     console.log("update income value invoked");
     let balance = 0;
     let income = 0;
 
-    if(parseInt(values.income) > amount) {
-      balance = parseInt(values.balance) - (parseInt(values.income) - amount)
-      income = amount;
-    }
-    else if(parseInt(values.income) < amount) {
-        balance = parseInt(values.balance) + (amount - parseInt(values.income));
-        income = amount;
-    }
+    if (bal_add) {
+      balance = (parseInt(values.balance) + diff);
+      income = (parseInt(values.income) + diff);
+  }
     else{
-        balance = values.balance;
-        income = amount;
-    }; 
+        balance = (parseInt(values.balance) - diff);
+        income = (parseInt(values.income) - diff);
+    }
+
     const val = {balance: balance.toString(), income: income.toString(), expense: values.expense};
     try{
       const jsonValue = JSON.stringify(val);
@@ -167,8 +164,17 @@ const EditExpenseSalaryComponent = props => {
     UpdateData(newExpense);
     GetData();
     // dispatch(updateExpense(newExpense));
-    dispatch(updateIncome({income: amount.toString()}));
-    UpdateIncomeValues();
+    if (amt > amount) {
+      const diff = parseInt(amt) - parseInt(amount);
+      dispatch(updateIncome({amount: diff.toString(), bal_add: false}));
+      UpdateIncomeValues(diff, fasle);
+    } else if (amount > amt) {
+      const diff = parseInt(amount) - parseInt(amt);
+      dispatch(updateIncome({amount: diff.toString(), bal_add: true}));
+      UpdateIncomeValues(diff, true);
+    }
+    // dispatch(updateIncome({income: amount.toString()}));
+    // UpdateIncomeValues();
     props.navigation.navigate('home');
   };
 

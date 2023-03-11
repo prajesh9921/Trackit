@@ -10,7 +10,7 @@ const AppBar = (props) => {
     // const value = {id: "8", content: "earphones", amt: "56", date: "March 10,2023", timestamp: "5-10-2023", deducted: true};
     try {
       const jsonValue = JSON.stringify(value)
-      await AsyncStorage.setItem('8', jsonValue)
+      await AsyncStorage.setItem('values', jsonValue)
     } catch(e) {
       console.log(e)
     }

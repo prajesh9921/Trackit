@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { deleteExpense } from "../../features/items";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { loadData } from "../../features/items";
+import { updateAfterDel } from "../../features/numbers";
 
 const ExpenseDisplay = (props) => {
     const {id} = props.route.params;
@@ -13,6 +14,7 @@ const ExpenseDisplay = (props) => {
     const [expenseData, setExpenseData] = useState({});
 
     const data = useSelector((state) => state.ItemCard.value);
+    const values = useSelector((state) => state.Numbers.value);
 
     useEffect(() => {
         function getdata (data) {
@@ -31,10 +33,28 @@ const ExpenseDisplay = (props) => {
         getdata(data)
     },[])
 
+
+
     const DelExpense =() => {
         dispatch(deleteExpense(id));
+        dispatch(updateAfterDel({amount: expenseData.amt}))
         props.navigation.goBack();
     }
+
+    const ValuesAfterDel = async() => {
+        console.log("update income value invoked");
+
+        let balance = (parseInt(values.balance) + parseInt(expenseData.amt));
+        let expense = (parseInt(values.expense) - parseInt(expenseData.amt));
+
+        const val = {balance: balance.toString(), income: values.income, expense: expense.toString()};
+        try{
+        const jsonValue = JSON.stringify(val);
+        await AsyncStorage.mergeItem('values', jsonValue);
+        }catch(e) {
+        console.log(e);
+        }
+    };
 
     const GetData = async() => {
         try{
@@ -55,6 +75,7 @@ const ExpenseDisplay = (props) => {
           await AsyncStorage.removeItem(key)
           DelExpense();
           GetData();
+          ValuesAfterDel();
         } catch(e) {
           console.log(e);
         }

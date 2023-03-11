@@ -14,19 +14,14 @@ export const NumbersSlice = createSlice({
         },
 
         updateIncome: (state, action) => {
-            if(parseInt(state.value.income) > parseInt(action.payload.income)) {
-                const balance = parseInt(state.value.balance) - (parseInt(state.value.income) - parseInt(action.payload.income))
-                state.value.balance = balance.toString(); 
-                state.value.income = action.payload.income;
-            }
-            else if(parseInt(state.value.income) < parseInt(action.payload.income)) {
-                const balance = parseInt(state.value.balance) + (parseInt(action.payload.income) - parseInt(state.value.income));
-                state.value.balance = balance.toString();
-                state.value.income = action.payload.income;
+            if (action.payload.bal_add) {
+                state.value.balance = (parseInt(state.value.balance) + parseInt(action.payload.amount)).toString();
+                state.value.income = (parseInt(state.value.income) + parseInt(action.payload.amount)).toString();
             }
             else{
-                state.value.income = action.payload.income;
-            } 
+                state.value.balance = (parseInt(state.value.balance) - parseInt(action.payload.amount)).toString();
+                state.value.income = (parseInt(state.value.income) + parseInt(action.payload.amount)).toString();
+            }
         },
 
         addExpen: (state, action) => {
@@ -45,13 +40,18 @@ export const NumbersSlice = createSlice({
             }
         },
 
+        updateAfterDel: (state, action) => {
+            state.value.balance = (parseInt(state.value.balance) + parseInt(action.payload.amount)).toString();
+            state.value.expense = (parseInt(state.value.expense) - parseInt(action.payload.amount)).toString();
+        },
+
         loadValues: (state, action) => {
             state.value = action.payload
         }
     }
 }) 
 
-export const {addIncome, updateIncome, addExpen, expenseUpdate, loadValues} = NumbersSlice.actions;
+export const {addIncome, updateIncome, addExpen, expenseUpdate, loadValues, updateAfterDel} = NumbersSlice.actions;
 
 export default NumbersSlice.reducer;
 
