@@ -3,37 +3,6 @@ import {View, Text, StyleSheet, ScrollView, FlatList} from 'react-native';
 import ExpenseCard from './expenseCard';
 
 const Card = props => {
-  // const [datesArray, setDateArray] = useState();
-
-  // useEffect(() => {
-  //   console.log('Card called');
-
-  //   const GetDateArray = () => {
-  //     var unique = [];
-
-  //     props.data.map(item => {
-  //       if (item.timestamp != 'values') {
-  //         if (!unique.includes(item.info.timestamp)) {
-  //           unique.push(item.info.timestamp);
-  //         }
-  //       }
-  //     });
-
-  //     console.log(unique);
-
-  //     unique.sort((a, b) => {
-  //       const dateA = new Date(a);
-  //       const dateB = new Date(b);
-  //       return dateB - dateA; // Reverse the order of the comparison
-  //     });
-
-  //     console.log(unique);
-  //     setDateArray(unique);
-  //   };
-
-  //   GetDateArray();
-  // },[]);
-
   return (
     <FlatList
       ListHeaderComponent={
@@ -46,18 +15,18 @@ const Card = props => {
       keyExtractor={item => item.timestamp}
       renderItem={({item}) => {
         if (item.timestamp != 'values') {
-                return (
-                  <ExpenseCard
-                    navigation={props.navigation}
-                    id={item?.timestamp || ''}
-                    title={item.info?.content || ''}
-                     amount={item.info?.amt || ''}
-                     deducted={item.info?.deducted || ''}
-                   />
-                 );
-               } else {
-                 return null;
-               }
+          return (
+            <ExpenseCard
+              navigation={props.navigation}
+              id={item?.timestamp || ''}
+              title={item.info?.content || ''}
+              amount={item.info?.amt || ''}
+              deducted={item.info?.deducted || ''}
+            />
+          );
+        } else {
+          return null;
+        }
       }}
     />
   );

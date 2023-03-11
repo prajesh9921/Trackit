@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {updateExpense} from '../../features/items';
 import {updateIncome} from '../../features/numbers';
 import {expenseUpdate} from '../../features/numbers';
 import {loadData} from '../../features/items';
@@ -15,12 +14,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const EditExpenseSalaryComponent = props => {
   const {id, amt} = props.route.params;
-
   const alldata = useSelector(state => state.ItemCard.value);
-  const values = useSelector((state) => state.Numbers.value);
-
+  const values = useSelector(state => state.Numbers.value);
   const dispatch = useDispatch();
-
   const [selected, setSelected] = useState('expense');
   const [inputSelected, setInputSelected] = useState({
     amount: 'false',
@@ -34,7 +30,6 @@ const EditExpenseSalaryComponent = props => {
 
   useEffect(() => {
     function getTodayDate() {
-      console.log('use effect called in add screen');
       var dateObj = new Date();
       var month = dateObj.toLocaleString('default', {month: 'long'});
       var monthint = dateObj.getMonth() + 1;
@@ -48,7 +43,6 @@ const EditExpenseSalaryComponent = props => {
     }
 
     function getdata(data) {
-      console.log('use effect called in expenses display page');
       data.forEach(item => {
         if (item.timestamp === id) {
           setAmount(item.info.amt);
@@ -56,11 +50,12 @@ const EditExpenseSalaryComponent = props => {
         }
       });
     }
+
     getTodayDate();
     getdata(alldata);
   }, []);
 
-  const UpdateData = async(updatedvalue) => {
+  const UpdateData = async updatedvalue => {
     try {
       await AsyncStorage.mergeItem(id, JSON.stringify(updatedvalue));
     } catch (err) {
@@ -68,48 +63,48 @@ const EditExpenseSalaryComponent = props => {
     }
   };
 
-  const UpdateIncomeValues = async(diff, bal_add) => {
-    console.log("update income value invoked");
+  const UpdateIncomeValues = async (diff, bal_add) => {
     let balance = 0;
     let income = 0;
-
     if (bal_add) {
-      balance = (parseInt(values.balance) + diff);
-      income = (parseInt(values.income) + diff);
-  }
-    else{
-        balance = (parseInt(values.balance) - diff);
-        income = (parseInt(values.income) - diff);
+      balance = parseInt(values.balance) + diff;
+      income = parseInt(values.income) + diff;
+    } else {
+      balance = parseInt(values.balance) - diff;
+      income = parseInt(values.income) - diff;
     }
-
-    const val = {balance: balance.toString(), income: income.toString(), expense: values.expense};
-    try{
+    const val = {
+      balance: balance.toString(),
+      income: income.toString(),
+      expense: values.expense,
+    };
+    try {
       const jsonValue = JSON.stringify(val);
       await AsyncStorage.mergeItem('values', jsonValue);
-    }catch(e) {
+    } catch (e) {
       console.log(e);
     }
   };
 
-  const UpdateExpenseValues = async(diff, bal_add) => {
-    console.log("update expense value invoked");
+  const UpdateExpenseValues = async (diff, bal_add) => {
     let balance = 0;
     let expense = 0;
-
     if (bal_add) {
-      balance = (parseInt(values.balance) + diff);
-      expense = (parseInt(values.expense) - diff);
-  }
-    else{
-        balance = (parseInt(values.balance) - diff);
-        expense = (parseInt(values.expense) + diff);
+      balance = parseInt(values.balance) + diff;
+      expense = parseInt(values.expense) - diff;
+    } else {
+      balance = parseInt(values.balance) - diff;
+      expense = parseInt(values.expense) + diff;
     }
-    
-    const val = {balance: balance.toString(), income: values.income, expense: expense.toString()};
-    try{
+    const val = {
+      balance: balance.toString(),
+      income: values.income,
+      expense: expense.toString(),
+    };
+    try {
       const jsonValue = JSON.stringify(val);
       await AsyncStorage.mergeItem('values', jsonValue);
-    }catch(e) {
+    } catch (e) {
       console.log(e);
     }
   };
@@ -118,7 +113,6 @@ const EditExpenseSalaryComponent = props => {
     try {
       const keys = await AsyncStorage.getAllKeys();
       const result = await AsyncStorage.multiGet(keys);
-
       const data = result.map(item => {
         return {timestamp: item[0], info: JSON.parse(item[1])};
       });
@@ -139,7 +133,6 @@ const EditExpenseSalaryComponent = props => {
     };
     UpdateData(newExpense);
     GetData();
-    // dispatch(updateExpense(newExpense));
     if (amt > amount) {
       const diff = parseInt(amt) - parseInt(amount);
       dispatch(expenseUpdate({amount: diff.toString(), bal_add: true}));
@@ -163,7 +156,6 @@ const EditExpenseSalaryComponent = props => {
     };
     UpdateData(newExpense);
     GetData();
-    // dispatch(updateExpense(newExpense));
     if (amt > amount) {
       const diff = parseInt(amt) - parseInt(amount);
       dispatch(updateIncome({amount: diff.toString(), bal_add: false}));
@@ -173,19 +165,15 @@ const EditExpenseSalaryComponent = props => {
       dispatch(updateIncome({amount: diff.toString(), bal_add: true}));
       UpdateIncomeValues(diff, true);
     }
-    // dispatch(updateIncome({income: amount.toString()}));
-    // UpdateIncomeValues();
     props.navigation.navigate('home');
   };
 
   const ExpenseOnPress = () => {
     setSelected('expense');
-    console.log(selected);
   };
 
   const IncomeOnPress = () => {
     setSelected('income');
-    console.log(selected);
   };
 
   const AmountFocused = () => {
@@ -194,7 +182,6 @@ const EditExpenseSalaryComponent = props => {
       desc: 'false',
       date: 'false',
     });
-    console.log(inputSelected.amount);
   };
 
   const DescFocused = () => {
@@ -203,7 +190,6 @@ const EditExpenseSalaryComponent = props => {
       desc: 'true',
       date: 'false',
     });
-    console.log(inputSelected.amount);
   };
 
   const DateFocused = () => {
@@ -212,7 +198,6 @@ const EditExpenseSalaryComponent = props => {
       desc: 'false',
       date: 'true',
     });
-    console.log(inputSelected.amount);
   };
 
   return (

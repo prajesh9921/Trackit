@@ -1,8 +1,7 @@
 import React from 'react';
 import {View, TouchableOpacity, StyleSheet, Text} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const FloatingActionButton = (props: any) => {
+const FloatingActionButton = (props) => {
   return (
     <TouchableOpacity onPressIn={() => props.navigation.navigate('AddTask')}>
       <View style={styles.fab}>

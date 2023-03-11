@@ -1,10 +1,9 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 
 const DashBoard = () => {
-
-  const Data = useSelector((state : any) => state.Numbers.value);
+  const Data = useSelector(state => state.Numbers.value);
 
   return (
     <View style={styles.dashboard}>

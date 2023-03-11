@@ -1,21 +1,25 @@
 import React from 'react';
 import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
-import { useSelector } from 'react-redux';
 
-const ExpenseCard = (props: any) => {
-
-    return (
-        <TouchableOpacity
-          onPress={() => props.navigation.navigate('ExpenseDisplay', {id: props.id})}
-        >
-          <View style={styles.expenseCard}>
-              <View style={styles.dataView}>
-                <Text style={styles.cardTitle}>{props.title}</Text>
-                <Text style={props.deducted ? styles.cardExpense : styles.cardExpenseAdded}>$ {props.amount}</Text>
-              </View>
-          </View>
-        </TouchableOpacity>
-    );
+const ExpenseCard = props => {
+  return (
+    <TouchableOpacity
+      onPress={() =>
+        props.navigation.navigate('ExpenseDisplay', {id: props.id})
+      }>
+      <View style={styles.expenseCard}>
+        <View style={styles.dataView}>
+          <Text style={styles.cardTitle}>{props.title}</Text>
+          <Text
+            style={
+              props.deducted ? styles.cardExpense : styles.cardExpenseAdded
+            }>
+            $ {props.amount}
+          </Text>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -43,7 +47,7 @@ const styles = StyleSheet.create({
   cardExpenseAdded: {
     fontSize: 14,
     color: '#00B152',
-  }
+  },
 });
 
 export default ExpenseCard;

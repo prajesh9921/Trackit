@@ -20,19 +20,17 @@ const UserData = () => {
 
   const NextUser = () => {
     const LEN = userData.length;
-    if (userNumber === LEN-1) {
-        return console.log("end of line")
-    }else{
-        setUserNumber(userNumber + 1);
+    if (userNumber === LEN - 1) {
+    } else {
+      setUserNumber(userNumber + 1);
     }
   };
 
   const PrevUser = () => {
     const LEN = userData.length;
     if (userNumber === 0) {
-        return console.log("end of line")
-    }else{
-        setUserNumber(userNumber - 1);
+    } else {
+      setUserNumber(userNumber - 1);
     }
   };
 
