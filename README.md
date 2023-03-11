@@ -20,5 +20,5 @@ src-
 2. After cloning open terminal inside project folder and run ```npm install``` it will install all dependencies.
 3. To run the app type ```npm run start``` it will start metro bundler.
 
-# TroubleShootinh
+# TroubleShooting
 1. If you get error like "react-native-cli is unknown" or "npm start run command unknown" then run command ```npm install -g react-native-cli```. hope that solves the issue.
