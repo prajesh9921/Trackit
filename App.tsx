@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './src/screen/Home/home';
 import UserInfo from './src/screen/UserDetails/user';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import ExpenseSalaryComponent from './src/screen/AddExpenseSalary/addExpenseSalary';
+import ExpenseSalaryComponent from './src/screen/ExpenseSalary/addExpenseSalary';
 import EditExpenseSalaryComponent from './src/screen/EditExpenseSalary/editExpenseSalary';
 import ExpenseDisplay from './src/screen/DisplayExpense/displayExpense';
 import { Provider } from 'react-redux';
