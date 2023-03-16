@@ -34,23 +34,27 @@ const UserData = () => {
     }
   };
 
+  if (!userData) {
+    return <Text style={{textAlign: 'center', color: 'black', fontSize: 20}}>Loading...</Text>
+  }
+  else {
   return (
     <View style={styles.view}>
       <View style={styles.image}>
         <Text style={styles.image_title}>
-          {!userData ? 'Loading...' : userData[userNumber].username}
+          {userData[userNumber].username}
         </Text>
       </View>
       <Text style={styles.name}>
-        {!userData ? 'Loading...' : userData[userNumber].name}
+        {userData[userNumber].name}
       </Text>
       <Text style={styles.email}>
-        {!userData ? 'Loading...' : userData[userNumber].email}
+        {userData[userNumber].email}
       </Text>
       <Text style={styles.info}>
-        {!userData ? 'Loading...' : userData[userNumber].address.street},
-        {!userData ? 'Loading...' : userData[userNumber].address.suite},
-        {!userData ? 'Loading...' : userData[userNumber].address.city}
+        {userData[userNumber].address.street},
+        {userData[userNumber].address.suite},
+        {userData[userNumber].address.city}
       </Text>
 
       <View style={styles.buttons}>
@@ -72,13 +76,14 @@ const UserData = () => {
         </View>
       </View>
     </View>
-  );
+  );}
 };
 
 const styles = StyleSheet.create({
   view: {
     color: 'black',
     alignItems: 'center',
+    marginTop: 50
   },
   text: {
     color: 'black',
